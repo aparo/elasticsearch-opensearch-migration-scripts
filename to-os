@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#find . -type f \( -iname \*.scala -o -iname \*.sbt -o -iname \*.java  -o -iname \*.gradle -o -iname \*.properties  -o -iname \*.md \)  -exec perl -pi -e '
+
+find . -type f \( -iname \*.scala -o -iname \*.sbt -o -iname \*.java \)  -exec perl -pi -e '
+  undef $/;
+  use Regexp::Common;
+  $x= "(){"."}";
+  $bp = "(?:$RE{balanced}{-parens=>$x})";
+  $arg = "(?:[^()}{,]*$bp?)+";
+  s/elasticsearch/opensearch/g;
+  s/Elasticsearch/OpenSearch/g;
+  s/esplugin/opensearchplugin/g;
+  s/validateElasticPom/validatePom/g;
+  s/ESClientYamlSuiteTestCase/OpenSearchClientYamlSuiteTestCase/g;
+  s/ESIntegTestCase/OpenSearchIntegTestCase/g;
+  s/ESTestCase/OpenSearchTestCase/g;
+
+' {} +
+
+chcase -rd -x 's/elasticsearch/opensearch/g' .
